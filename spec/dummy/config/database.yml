@@ -1,0 +1,16 @@
+
+test:
+  adapter: postgresql
+  host: localhost
+  database: pof-test
+  user: user
+  password: password
+
+
+
+development:
+  adapter: postgresql
+  host: localhost
+  database: pof-dev
+  user: user
+  password: password

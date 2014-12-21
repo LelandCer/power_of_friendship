@@ -1,0 +1,2 @@
+module PowerOfFriendship
+end
