@@ -1,0 +1,9 @@
+Description:
+    This generator creates a migration and model files for friendship representations. 
+
+Example:
+    rails generate friendship <Name of Friend Model, eg: User>
+
+    This will create:
+        friendship model
+        friendship migration

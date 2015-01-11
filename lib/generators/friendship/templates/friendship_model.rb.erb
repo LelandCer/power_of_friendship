@@ -1,0 +1,19 @@
+class <%= class_name %> < ActiveRecord::Base
+  belongs_to :<%= orig_class_name_und %> 
+
+  belongs_to :friend,
+    :class_name => <%= orig_class_name_cam %> ,
+    :foreign_key => :friend_id
+
+
+  validates_presence_of :friend_id, :<%= orig_class_name_und %>_id
+  validates_uniqueness_of :<%= orig_class_name_und %>_id, :scope => :friend_id
+
+  def approved?
+    !self.pending
+  end
+
+  def pending?
+    self.pending
+  end
+end

@@ -3,6 +3,7 @@ PATH
   specs:
     power_of_friendship (0.0.1)
       rails (~> 4.1.7)
+      squeel
       tzinfo-data
 
 GEM
@@ -52,6 +53,8 @@ GEM
     minitest (5.5.0)
     multi_json (1.10.1)
     pg (0.17.1-x86-mingw32)
+    polyamorous (1.1.0)
+      activerecord (>= 3.0)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -96,6 +99,10 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    squeel (1.2.2)
+      activerecord (>= 3.0)
+      activesupport (>= 3.0)
+      polyamorous (~> 1.1.0)
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)

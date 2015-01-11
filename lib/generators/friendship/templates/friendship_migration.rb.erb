@@ -1,0 +1,16 @@
+class <%= migration_class_name %> < ActiveRecord::Migration
+  def change
+    create_table <%= table_name %> do |t|
+      t.belongs_to :<%= orig_class_name_und %>, index: true
+      t.belongs_to :friend, index: true
+      t.boolean :pending, :default => true
+
+
+      t.timestamps
+
+    end
+
+    add_index <%= table_name %>, [:<%= orig_class_name_und %>_id, :friend_id], :unique => true
+    
+  end
+end
