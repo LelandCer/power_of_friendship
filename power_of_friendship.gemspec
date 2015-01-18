@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = PowerOfFriendship::VERSION
   s.authors     = ["miseralis"]
   s.email       = ["me@miseralis.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of PowerOfFriendship."
-  s.description = "TODO: Description of PowerOfFriendship."
+  s.homepage    = "https://github.com/Miseralis/power_of_friendship"
+  s.summary     = "Empower your models with the awesome power of friendship"
+  s.description = "Power of Friendship is a friendship library for Rails' Active Records. It allows you to add Facebook style friendships and/or Twitter style followers to any model."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
