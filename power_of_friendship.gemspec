@@ -24,4 +24,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'factory_girl_rails', '4.2.0'
   s.add_dependency 'tzinfo-data'
+  spec.required_ruby_version = '>= 1.9.3'
 end
