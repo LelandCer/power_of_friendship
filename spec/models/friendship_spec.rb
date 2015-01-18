@@ -206,6 +206,42 @@ describe TestUser, :type => :model do
     end
   end
 
+
+  describe "disapproving a friend" do 
+    before do
+      @friend = FactoryGirl.create(:test_user)
+      @user.invite @friend
+      @friend.unfriend @user
+    end
+
+    it "should not approve" do
+      expect(@friend.approve @user).to be false
+    end
+   
+    it "should not be connected_with" do
+      expect(@friend.connected_with? @user).to be false
+    end
+   
+  end
+
+  describe "removing a friend" do 
+    before do
+      @friend = FactoryGirl.create(:test_user)
+      @user.invite @friend
+      @friend.approve @user
+      @friend.unfriend @user
+    end
+   
+    it "should not be connected_with" do
+      expect(@friend.connected_with? @user).to be false
+    end
+   
+  end
+
+
+
+
+
   describe "inverse friendships" do
     before { 
       @inverse_friendship = FactoryGirl.create(:friendship, {friend: @user})
@@ -327,6 +363,52 @@ describe TestUser, :type => :model do
       it "user should respond to followed_by?" do
         expect(@user.followed_by? @follower).to be true
       end
+    end
+
+    describe "unfollowing" do
+      before do
+        @follower = FactoryGirl.create(:test_user)
+        @inverse_follower = FactoryGirl.create(:test_user)
+        @follower.follow @inverse_follower
+        @inverse_follower.follow @follower
+      end
+
+      describe "@follower unfollows" do
+        before do
+          @follower.unfollow @inverse_follower
+        end
+
+        it "should not follow" do
+          expect(@follower.follows? @inverse_follower).to be false
+        end
+
+        it "should still be followed" do 
+          expect(@follower.followed_by? @inverse_follower).to be true
+        end
+
+        it "should now have a pending friendship" do
+          expect(@follower.find_any_friendship_with(@inverse_follower).pending?).to be true
+        end
+      end
+
+      describe "@inverse_follower unfollows" do
+        before do
+          @inverse_follower.unfollow @follower
+        end
+
+        it "should not follow" do
+          expect(@inverse_follower.follows? @follower).to be false
+        end
+
+        it "should still be followed" do 
+          expect(@inverse_follower.followed_by? @follower).to be true
+        end
+
+        it "should now have a pending friendship" do
+          expect(@inverse_follower.find_any_friendship_with(@follower).pending?).to be true
+        end
+      end
+
     end
 
     describe "friendship api should still function" do

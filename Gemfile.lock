@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    power_of_friendship (0.0.1)
+    power_of_friendship (1.0.0)
       rails (~> 4.1.7)
       squeel
       tzinfo-data

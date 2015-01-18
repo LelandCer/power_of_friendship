@@ -7,8 +7,8 @@ require "power_of_friendship/version"
 Gem::Specification.new do |s|
   s.name        = "power_of_friendship"
   s.version     = PowerOfFriendship::VERSION
-  s.authors     = ["Leland Cerauskis"]
-  s.email       = ["lelandcer@gmail.com"]
+  s.authors     = ["miseralis"]
+  s.email       = ["miseralis@gmail.com"]
   s.homepage    = "TODO"
   s.summary     = "TODO: Summary of PowerOfFriendship."
   s.description = "TODO: Description of PowerOfFriendship."

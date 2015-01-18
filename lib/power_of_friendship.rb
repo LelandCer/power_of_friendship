@@ -78,16 +78,6 @@ module PowerOfFriendship
         :foreign_key => :friend_id,
         :class_name => pow_friendship_model
 
-      def self.order_by_ids(ids)
-        return order('') if ids.nil? or ids.empty?
-        order_by = ["case"]
-        ids.each_with_index.map do |id, index|
-          order_by << "WHEN id='#{id}' THEN #{index}"
-        end
-        order_by << "end"
-        order(order_by.join(" "))
-      end
-
 
         include PowerOfFriendship::ActsAsFriend::LocalInstanceMethods
       end
@@ -110,17 +100,7 @@ module PowerOfFriendship
         self.class.pow_friendship_table
       end
 
-      def find_any_friendship_with(model)
-        pow_model_id_column = pow_model_id # TODO figure out how to avoid this
-        friendship = pow_friendship_model.where{
-          (( __send__(pow_model_id_column) == my{id} )  & 
-            (  friend_id == my{model.id} )) |
-          (( __send__(pow_model_id_column) == my{model.id} )  & 
-            (  friend_id == my{id} ))
-          }.order(created_at: :desc).first;
 
-        friendship
-      end
 
       def invite(friend)
         return false if friend == self || find_any_friendship_with(friend)
@@ -139,25 +119,29 @@ module PowerOfFriendship
         end 
       end
 
+      def unfriend(friend)
+        friendship = self.find_any_friendship_with friend
+        return true if not friendship
+        friendship.destroy
+        self.destroy_complimentary_friendship friendship
+      end
+
       def follow(model)
         return true if self.invite(model)
         return self.approve model
       end
 
-      def create_complimentary_friendship(friendship)
-        return false if friendship.pending?
-        return pow_friendship_model.create(pow_model_id => friendship.friend_id, 
-          friend_id: friendship.send(pow_model_id), pending: false)
-      end
+      def unfollow(model)
+        followership = pow_friendship_model.where(pow_model_id => self.id, :friend_id => model.id).first
+        return true if not followership
+        followership.destroy
 
-      def destroy_complimentary_friendship(friendship)
-        return false if friendship.pending?
-        friendship_compliment = find_friendship_complement friendship
-        return friendship_compliment.destroy
-      end
-
-      def find_friendship_complement friendship
-        friendship = pow_friendship_model.where(pow_model_id => friendship.friend_id, :friend_id => friendship.send(pow_model_id)).first
+        if followership.approved?
+          other_followership = find_friendship_complement followership
+          other_followership.pending = true
+          other_followership.save
+        end
+        return true
       end
 
       def friends_with?(model)
@@ -236,6 +220,33 @@ module PowerOfFriendship
       end
 
 
+      def create_complimentary_friendship(friendship)
+        return false if friendship.pending?
+        return pow_friendship_model.create(pow_model_id => friendship.friend_id, 
+          friend_id: friendship.send(pow_model_id), pending: false)
+      end
+
+      def destroy_complimentary_friendship(friendship)
+        return false if friendship.pending?
+        friendship_compliment = find_friendship_complement friendship
+        return friendship_compliment.destroy
+      end
+
+      def find_friendship_complement friendship
+        friendship = pow_friendship_model.where(pow_model_id => friendship.friend_id, :friend_id => friendship.send(pow_model_id)).first
+      end
+
+      def find_any_friendship_with(model)
+        pow_model_id_column = pow_model_id # TODO figure out how to avoid this
+        friendship = pow_friendship_model.where{
+          (( __send__(pow_model_id_column) == my{id} )  & 
+            (  friend_id == my{model.id} )) |
+          (( __send__(pow_model_id_column) == my{model.id} )  & 
+            (  friend_id == my{id} ))
+          }.order(created_at: :desc).first;
+
+        friendship
+      end
     end
   end
 end
