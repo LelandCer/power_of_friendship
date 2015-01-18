@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.name        = "power_of_friendship"
   s.version     = PowerOfFriendship::VERSION
   s.authors     = ["miseralis"]
-  s.email       = ["miseralis@gmail.com"]
+  s.email       = ["me@miseralis.com"]
   s.homepage    = "TODO"
   s.summary     = "TODO: Summary of PowerOfFriendship."
   s.description = "TODO: Description of PowerOfFriendship."
