@@ -8,7 +8,7 @@ Power of Friendship is a friendship library for Rails' Active Records. It allows
 Installation
 --------------
 
-> gem install "power_of_friendship", "~> 1.0.1"
+> gem install "power_of_friendship", "~> 1.0.2"
 
 Quick Start
 -------------
