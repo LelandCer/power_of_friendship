@@ -4,6 +4,10 @@ Power of Friendship
 Power of Friendship is a friendship library for Rails' Active Records. It allows you to add Facebook style friendships and/or Twitter style followers to any model.
 
 -----
+#### **Recommended Friends**
+PoF provides models with the powerful ability to find recomended friends by finding the PoF powered models with the most mutual friends.
+
+----
 
 Installation
 --------------
