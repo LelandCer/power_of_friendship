@@ -209,7 +209,11 @@ module PowerOfFriendship
           (  __send__(table).__send__(pow_model_id_column).not_in(approved_friendships.select{ __send__(table).friend_id} ) ) 
 
         }.select{ 
-          ["#{self_table}.id", "#{self_table}.*", __send__(table).count.as(:jcount)] 
+          if ActiveRecord::Base.connection.instance_values["config"][:adapter] == 'mysql2'
+            ["#{self_table}.id", "#{self_table}.*", "COUNT(`#{__send__(table)}`.`user_id`) as jcount"]
+          else
+            ["#{self_table}.id", "#{self_table}.*", __send__(table).count.as(:jcount)]
+          end
 
         }.joins(:friendships).group{ 
           [__send__(table).__send__(pow_model_id_column), "#{self_table}.id"]
